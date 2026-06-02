@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contato & Encomendas — Jurat's Artesanato</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #F5EFE0; --cream-dark: #EDE4CE; --wood: #8B5E3C;
+      --wood-dark: #6B4226; --wood-light: #C4956A; --forest: #3A5A40;
+      --charcoal: #2C2416; --text-muted: #7A6A55; --white: #FDFAF4; --accent: #C8441B;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--charcoal); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+
+    /* HEADER */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1rem 4vw; background: var(--cream); border-bottom: 1px solid var(--cream-dark); }
+    header.scrolled { box-shadow: 0 2px 24px rgba(44,36,22,.1); }
+    .logo { display: flex; align-items: center; gap: .75rem; text-decoration: none; color: var(--wood-dark); }
+    .logo-mark { width: 44px; height: 44px; background: var(--wood-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .logo-mark svg { width: 26px; height: 26px; fill: var(--cream); }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; }
+    .logo-sub { font-size: .65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); display: block; margin-top: -6px; }
+    nav { display: flex; align-items: center; gap: 2.5rem; }
+    nav a { font-size: .85rem; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; color: var(--charcoal); font-weight: 400; position: relative; transition: color .2s; }
+    nav a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--wood); transform: scaleX(0); transition: transform .3s; }
+    nav a:hover { color: var(--wood); }
+    nav a:hover::after, nav a.active::after { transform: scaleX(1); }
+    nav a.active { color: var(--wood); }
+    .btn-cta { background: var(--wood-dark); color: var(--cream) !important; padding: .55rem 1.3rem; border-radius: 2px; letter-spacing: 1.5px; font-size: .8rem; text-transform: uppercase; transition: background .2s !important; }
+    .btn-cta::after { display: none !important; }
+    .btn-cta:hover { background: var(--accent) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; border: none; background: none; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--charcoal); }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding: 9rem 8vw 5rem;
+      background: var(--accent);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 80px;
+      background: var(--cream);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+    .page-hero .eyebrow { font-size: .75rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(245,239,224,.7); font-weight: 700; margin-bottom: .75rem; }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 1.25rem; }
+    .page-hero h1 em { font-style: italic; }
+    .page-hero p { color: rgba(245,239,224,.75); max-width: 520px; font-size: 1.05rem; }
+
+    /* MAIN LAYOUT */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 5rem;
+      padding: 5rem 8vw 6rem;
+      align-items: start;
+    }
+
+    /* INFO SIDE */
+    .contact-info h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--wood-dark); line-height: 1.2; margin-bottom: 1rem; }
+    .contact-info h2 em { font-style: italic; color: var(--forest); }
+    .contact-info > p { color: var(--text-muted); line-height: 1.8; margin-bottom: 2.5rem; }
+
+    .contact-channels { display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 3rem; }
+    .channel-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.25rem;
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      border-radius: 4px;
+      text-decoration: none; color: inherit;
+      transition: border-color .2s, transform .2s;
+    }
+    .channel-item:hover { border-color: var(--wood-light); transform: translateX(4px); }
+    .channel-icon {
+      width: 46px; height: 46px; flex-shrink: 0;
+      background: var(--cream-dark); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .channel-icon svg { width: 22px; fill: var(--wood-dark); }
+    .channel-label { font-size: .7rem; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; margin-bottom: .2rem; }
+    .channel-value { font-size: .95rem; color: var(--wood-dark); font-weight: 400; }
+
+    .info-box {
+      background: var(--cream-dark);
+      border-radius: 4px;
+      padding: 1.75rem;
+    }
+    .info-box h4 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--wood-dark); margin-bottom: .75rem; }
+    .info-box ul { list-style: none; }
+    .info-box ul li { font-size: .88rem; color: var(--text-muted); padding: .4rem 0; border-bottom: 1px solid rgba(139,94,60,.1); display: flex; align-items: center; gap: .6rem; }
+    .info-box ul li:last-child { border-bottom: none; }
+    .info-box ul li::before { content: '✓'; color: var(--forest); font-weight: 700; font-size: .9rem; }
+
+    /* FORM SIDE */
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      border-radius: 4px;
+      padding: 2.5rem;
+    }
+    .form-header { margin-bottom: 2rem; }
+    .form-header h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--wood-dark); margin-bottom: .4rem; }
+    .form-header p { font-size: .88rem; color: var(--text-muted); }
+
+    .form-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--cream-dark); margin-bottom: 2rem; }
+    .form-tab {
+      padding: .75rem 1.25rem; font-size: .78rem; letter-spacing: 1.5px; text-transform: uppercase;
+      font-weight: 700; background: none; border: none; border-bottom: 3px solid transparent;
+      cursor: pointer; color: var(--text-muted); transition: color .2s, border-color .2s;
+      font-family: 'Lato', sans-serif;
+    }
+    .form-tab.active { color: var(--wood-dark); border-bottom-color: var(--wood-dark); }
+    .form-tab:hover { color: var(--wood); }
+
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+
+    .form-group { margin-bottom: 1.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    label {
+      display: block;
+      font-size: .75rem; letter-spacing: 1.5px; text-transform: uppercase;
+      font-weight: 700; color: var(--charcoal); margin-bottom: .5rem;
+    }
+    input[type="text"], input[type="email"], input[type="tel"], select, textarea {
+      width: 100%;
+      padding: .8rem 1rem;
+      border: 1px solid var(--cream-dark);
+      background: var(--cream);
+      color: var(--charcoal);
+      border-radius: 2px;
+      font-family: 'Lato', sans-serif;
+      font-size: .9rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color .2s, background .2s;
+      appearance: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--wood); background: var(--white); }
+    textarea { resize: vertical; min-height: 120px; line-height: 1.7; }
+    select { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238B5E3C'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; background-size: 10px; padding-right: 2.5rem; }
+
+    .form-check { display: flex; align-items: flex-start; gap: .75rem; margin-bottom: 1.5rem; }
+    .form-check input[type="checkbox"] { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; accent-color: var(--wood-dark); cursor: pointer; }
+    .form-check label { font-size: .83rem; letter-spacing: 0; text-transform: none; font-weight: 300; color: var(--text-muted); cursor: pointer; }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--wood-dark);
+      color: var(--cream);
+      border: none;
+      padding: 1rem;
+      font-family: 'Lato', sans-serif;
+      font-size: .85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background .2s;
+    }
+    .btn-submit:hover { background: var(--accent); }
+
+    /* SUCCESS STATE */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+    .success-icon {
+      width: 64px; height: 64px;
+      background: #e8f5e9; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+    .success-icon svg { width: 32px; fill: var(--forest); }
+    .form-success h4 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--wood-dark); margin-bottom: .75rem; }
+    .form-success p { color: var(--text-muted); font-size: .93rem; }
+
+    /* FAQ */
+    .faq-section { padding: 5rem 8vw; background: var(--cream-dark); }
+    .section-label { font-size: .75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--wood); font-weight: 700; margin-bottom: .75rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--wood-dark); line-height: 1.2; margin-bottom: 3rem; }
+    .section-title em { font-style: italic; color: var(--forest); }
+
+    .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .faq-item {
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .faq-question {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .faq-question p { font-weight: 700; font-size: .95rem; color: var(--wood-dark); }
+    .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: var(--cream-dark); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .2s, transform .3s; }
+    .faq-toggle svg { width: 14px; fill: var(--wood); transition: transform .3s; }
+    .faq-item.open .faq-toggle { background: var(--wood-dark); }
+    .faq-item.open .faq-toggle svg { fill: var(--cream); transform: rotate(45deg); }
+    .faq-answer { display: none; padding: 0 1.5rem 1.25rem; font-size: .88rem; color: var(--text-muted); line-height: 1.8; border-top: 1px solid var(--cream-dark); padding-top: 1rem; }
+    .faq-item.open .faq-answer { display: block; }
+
+    /* FOOTER */
+    footer { background: var(--charcoal); color: rgba(245,239,224,.6); padding: 3rem 8vw 2rem; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand p { font-size: .87rem; margin-top: 1rem; line-height: 1.8; }
+    .footer-col h4 { font-size: .75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--cream); font-weight: 700; margin-bottom: 1.25rem; }
+    .footer-col a { display: block; color: rgba(245,239,224,.5); text-decoration: none; font-size: .87rem; margin-bottom: .6rem; transition: color .2s; }
+    .footer-col a:hover { color: var(--wood-light); }
+    .footer-bottom { border-top: 1px solid rgba(245,239,224,.08); padding-top: 1.75rem; display: flex; justify-content: space-between; align-items: center; font-size: .8rem; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .55s, transform .55s; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 1000px) {
+      .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+      nav.open { display: flex; flex-direction: column; position: fixed; top: 76px; left: 0; right: 0; background: var(--cream); padding: 1.5rem 6vw; border-bottom: 1px solid var(--cream-dark); gap: 1.25rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <a href="indexnew.html" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 2c1.6 0 3 .5 4.2 1.3L5.3 16.2A7 7 0 0 1 5 15c0-3.9 3.1-7 7-7zm0 14c-1.6 0-3.1-.5-4.2-1.4l10.9-9.9c.2.7.3 1.5.3 2.3 0 3.9-3.1 7-7 7z"/></svg>
+      </div>
+      <div>
+        <span class="logo-text">Jurat's</span>
+        <span class="logo-sub">Artesanato em Madeira</span>
+      </div>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+    <nav id="main-nav">
+      <a href="feito-a-mao.html">Feito a Mão</a>
+      <a href="publicacoes.html">Publicações</a>
+      <a href="contato.html" class="active">Contato</a>
+      <a href="contato.html" class="btn-cta">Encomendas</a>
+    </nav>
+  </header>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <p class="eyebrow">Fale conosco</p>
+    <h1>Contato &<br><em>Encomendas</em></h1>
+    <p>Tem uma ideia especial? Quer um brinquedo personalizado? Estamos aqui para conversar e transformar sua ideia em madeira.</p>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="contact-layout">
+
+    <!-- INFO -->
+    <div class="contact-info reveal">
+      <h2>Vamos criar algo <em>juntos</em></h2>
+      <p>Respondemos em até 24 horas nos dias úteis. Para encomendas urgentes, prefira o WhatsApp.</p>
+
+      <div class="contact-channels">
+        <a href="https://wa.me/5582999999999" class="channel-item">
+          <div class="channel-icon">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884z"/></svg>
+          </div>
+          <div>
+            <p class="channel-label">WhatsApp</p>
+            <p class="channel-value">(82) 9 9999-9999</p>
+          </div>
+        </a>
+        <a href="mailto:ola@jurats.com.br" class="channel-item">
+          <div class="channel-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </div>
+          <div>
+            <p class="channel-label">E-mail</p>
+            <p class="channel-value">ola@jurats.com.br</p>
+          </div>
+        </a>
+        <a href="https://instagram.com" class="channel-item">
+          <div class="channel-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </div>
+          <div>
+            <p class="channel-label">Instagram</p>
+            <p class="channel-value">@jurats_artesanato</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="info-box">
+        <h4>O que fazemos por encomenda</h4>
+        <ul>
+          <li>Brinquedos personalizados com o nome da criança</li>
+          <li>Réplicas de animais favoritos</li>
+          <li>Kits para presentear com embalagem especial</li>
+          <li>Peças temáticas para festas e eventos</li>
+          <li>Miniaturas colecionáveis em série limitada</li>
+          <li>Presentes corporativos artesanais</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-card reveal">
+      <div class="form-header">
+        <h3>Envie sua mensagem</h3>
+        <p>Dúvida, encomenda ou só um oi — fique à vontade.</p>
+      </div>
+
+      <div class="form-tabs">
+        <button class="form-tab active" onclick="switchTab('contato', this)">Mensagem geral</button>
+        <button class="form-tab" onclick="switchTab('encomenda', this)">Fazer encomenda</button>
+      </div>
+
+      <!-- CONTATO GERAL -->
+      <div class="form-panel active" id="panel-contato">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" placeholder="Seu nome completo" />
+          </div>
+          <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="seu@email.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="assunto">Assunto</label>
+          <select id="assunto">
+            <option value="" disabled selected>Selecione um assunto</option>
+            <option>Dúvida sobre produto</option>
+            <option>Informações sobre encomenda</option>
+            <option>Parceria ou revenda</option>
+            <option>Imprensa</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="mensagem">Mensagem</label>
+          <textarea id="mensagem" placeholder="Escreva sua mensagem aqui..."></textarea>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" id="lgpd" />
+          <label for="lgpd">Concordo com o uso dos meus dados para resposta a esta mensagem, conforme a LGPD.</label>
+        </div>
+        <button class="btn-submit" onclick="submitForm()">Enviar mensagem</button>
+      </div>
+
+      <!-- ENCOMENDA -->
+      <div class="form-panel" id="panel-encomenda">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="enc-nome">Nome</label>
+            <input type="text" id="enc-nome" placeholder="Seu nome" />
+          </div>
+          <div class="form-group">
+            <label for="enc-whats">WhatsApp</label>
+            <input type="tel" id="enc-whats" placeholder="(82) 9 0000-0000" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="enc-email">E-mail</label>
+          <input type="email" id="enc-email" placeholder="seu@email.com" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="enc-tipo">Tipo de peça</label>
+            <select id="enc-tipo">
+              <option value="" disabled selected>Escolha a categoria</option>
+              <option>Animal</option>
+              <option>Articulado / Boneco</option>
+              <option>Transporte / Veículo</option>
+              <option>Colecionável</option>
+              <option>Personalizado</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="enc-prazo">Prazo desejado</label>
+            <select id="enc-prazo">
+              <option value="" disabled selected>Selecione o prazo</option>
+              <option>Até 2 semanas</option>
+              <option>1 mês</option>
+              <option>2 meses</option>
+              <option>Sem prazo definido</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="enc-descricao">Descreva sua encomenda</label>
+          <textarea id="enc-descricao" placeholder="Descreva a peça desejada, cores, tamanho, nome a ser gravado, quantidade, ocasião especial..."></textarea>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" id="enc-lgpd" />
+          <label for="enc-lgpd">Concordo com o uso dos meus dados para retorno sobre esta encomenda.</label>
+        </div>
+        <button class="btn-submit" onclick="submitForm()">Solicitar encomenda</button>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="form-success" id="form-success">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+        </div>
+        <h4>Mensagem enviada!</h4>
+        <p>Obrigado pelo contato. Responderemos em até 24 horas úteis pelo canal informado.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <p class="section-label reveal">Perguntas frequentes</p>
+    <h2 class="section-title reveal">Tire suas <em>dúvidas</em></h2>
+    <div class="faq-grid">
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <p>Qual o prazo de entrega de uma encomenda?</p>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></div>
+        </div>
+        <div class="faq-answer">O prazo varia de acordo com a complexidade da peça. Itens simples ficam prontos em 7 a 14 dias. Peças articuladas ou com detalhes especiais podem levar de 3 a 6 semanas. Combinamos sempre antes de começar.</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <p>Vocês fazem brinquedos com o nome da criança?</p>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></div>
+        </div>
+        <div class="faq-answer">Sim! Gravamos nomes, datas ou mensagens curtas diretamente na madeira, usando pirografia ou entalhe. É um dos pedidos mais carinhosos que recebemos.</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <p>Os brinquedos são seguros para bebês?</p>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></div>
+        </div>
+        <div class="faq-answer">Usamos tintas e vernizes atóxicos em todas as peças. As indicadas para bebês (a partir de 6 ou 12 meses) são lixadas até ficarem completamente lisas, sem quinas ou rebarbas. Cada peça tem indicação de faixa etária.</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <p>Vocês entregam fora de Alagoas?</p>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></div>
+        </div>
+        <div class="faq-answer">Sim, enviamos para todo o Brasil via Correios ou transportadora. O frete é calculado com base no peso e destino. Embalamos as peças com cuidado especial para que cheguem perfeitas.</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <p>Como funciona o pagamento?</p>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></div>
+        </div>
+        <div class="faq-answer">Aceitamos Pix, transferência bancária e cartão de crédito via link de pagamento. Para encomendas personalizadas, cobramos 50% de sinal no início e o restante antes do envio.</div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <p>Vocês fazem kits para presentes corporativos?</p>
+          <div class="faq-toggle"><svg viewBox="0 0 24 24"><path d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></div>
+        </div>
+        <div class="faq-answer">Fazemos! Montamos kits personalizados com embalagem especial e possibilidade de incluir logo da empresa ou mensagem. Ideal para Dia das Crianças, Natal e datas comemorativas. Consulte disponibilidade para volumes maiores.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-mark">
+            <svg viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 2c1.6 0 3 .5 4.2 1.3L5.3 16.2A7 7 0 0 1 5 15c0-3.9 3.1-7 7-7zm0 14c-1.6 0-3.1-.5-4.2-1.4l10.9-9.9c.2.7.3 1.5.3 2.3 0 3.9-3.1 7-7 7z"/></svg>
+          </div>
+          <div>
+            <span class="logo-text" style="color:var(--cream);">Jurat's</span>
+            <span class="logo-sub">Artesanato em Madeira</span>
+          </div>
+        </div>
+        <p>Brinquedos feitos à mão com amor, madeira sustentável e dedicação artesanal desde 2018.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Produtos</h4>
+        <a href="feito-a-mao.html#animais">Animais</a>
+        <a href="feito-a-mao.html#articulados">Articulados</a>
+        <a href="feito-a-mao.html#transportes">Transportes</a>
+        <a href="feito-a-mao.html#colecao">Colecionáveis</a>
+      </div>
+      <div class="footer-col">
+        <h4>Sobre</h4>
+        <a href="publicacoes.html">Publicações</a>
+        <a href="publicacoes.html#historia">Nossa História</a>
+        <a href="contato.html">Contato</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <a href="mailto:ola@jurats.com.br">ola@jurats.com.br</a>
+        <a href="https://instagram.com">@jurats_artesanato</a>
+        <a href="https://wa.me/5582999999999">WhatsApp</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Jurat's. Todos os direitos reservados.</span>
+      <span>Feito com ❤️ em Alagoas, Brasil</span>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 40));
+
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('main-nav');
+    hamburger.addEventListener('click', () => nav.classList.toggle('open'));
+
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.form-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('panel-' + tab).classList.add('active');
+      document.getElementById('form-success').style.display = 'none';
+    }
+
+    function submitForm() {
+      document.querySelectorAll('.form-panel').forEach(p => p.style.display = 'none');
+      document.querySelectorAll('.form-tab').forEach(t => t.style.display = 'none');
+      const success = document.getElementById('form-success');
+      success.style.display = 'block';
+    }
+
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    }
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
+  </script>
+</body>
+</html>
