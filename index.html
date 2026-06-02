@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jurat's — Brinquedos Artesanais em Madeira</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F5EFE0;
+      --cream-dark: #EDE4CE;
+      --wood: #8B5E3C;
+      --wood-dark: #6B4226;
+      --wood-light: #C4956A;
+      --forest: #3A5A40;
+      --forest-light: #588157;
+      --charcoal: #2C2416;
+      --text-muted: #7A6A55;
+      --white: #FDFAF4;
+      --accent: #C8441B;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background-color: var(--cream);
+      color: var(--charcoal);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ─────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 4vw;
+      background: var(--cream);
+      border-bottom: 1px solid var(--cream-dark);
+      transition: box-shadow .3s;
+    }
+    header.scrolled { box-shadow: 0 2px 24px rgba(44,36,22,.1); }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      text-decoration: none;
+      color: var(--wood-dark);
+    }
+    .logo-mark {
+      width: 44px; height: 44px;
+      background: var(--wood-dark);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-mark svg { width: 26px; height: 26px; fill: var(--cream); }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; letter-spacing: -.5px; }
+    .logo-sub { font-size: .65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); display: block; margin-top: -6px; font-weight: 400; }
+
+    nav { display: flex; align-items: center; gap: 2.5rem; }
+    nav a {
+      font-size: .85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--charcoal);
+      font-weight: 400;
+      position: relative;
+      transition: color .2s;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 1px;
+      background: var(--wood);
+      transform: scaleX(0);
+      transition: transform .3s;
+    }
+    nav a:hover { color: var(--wood); }
+    nav a:hover::after { transform: scaleX(1); }
+
+    .btn-cta {
+      background: var(--wood-dark);
+      color: var(--cream) !important;
+      padding: .55rem 1.3rem;
+      border-radius: 2px;
+      letter-spacing: 1.5px;
+      font-size: .8rem;
+      text-transform: uppercase;
+      transition: background .2s !important;
+    }
+    .btn-cta::after { display: none !important; }
+    .btn-cta:hover { background: var(--accent) !important; color: var(--cream) !important; }
+
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; border: none; background: none; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--charcoal); transition: .3s; }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 76px;
+      overflow: hidden;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6vw 5vw 6vw 8vw;
+    }
+    .hero-eyebrow {
+      font-size: .75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--wood);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      line-height: 1.1;
+      color: var(--wood-dark);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em { font-style: italic; color: var(--forest); }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 420px;
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+    .hero-actions { display: flex; gap: 1rem; align-items: center; }
+    .btn-primary {
+      background: var(--wood-dark);
+      color: var(--cream);
+      padding: .85rem 2rem;
+      font-size: .85rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      transition: background .2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--accent); }
+    .btn-outline {
+      color: var(--wood-dark);
+      font-size: .85rem;
+      letter-spacing: 1px;
+      text-decoration: none;
+      font-weight: 400;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      transition: gap .2s;
+    }
+    .btn-outline:hover { gap: .7rem; }
+    .hero-stats {
+      margin-top: 3.5rem;
+      display: flex;
+      gap: 2.5rem;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--wood-dark);
+      font-weight: 700;
+    }
+    .stat-label { font-size: .75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); }
+
+    .hero-right {
+      position: relative;
+      background: var(--cream-dark);
+      overflow: hidden;
+    }
+    .hero-img-grid {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 3px;
+    }
+    .hero-img-grid div {
+      background: var(--wood-light);
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-img-grid div:first-child {
+      grid-column: 1 / 3;
+    }
+    .hero-img-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: .5rem;
+      color: rgba(255,255,255,.6);
+    }
+    .hero-img-placeholder svg { width: 48px; opacity: .5; }
+    .hero-img-placeholder span { font-size: .7rem; letter-spacing: 2px; text-transform: uppercase; opacity: .7; }
+    .hero-img-grid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .hero-badge {
+      position: absolute;
+      bottom: 2.5rem;
+      left: -1.5rem;
+      background: var(--white);
+      padding: 1rem 1.25rem;
+      border-radius: 4px;
+      box-shadow: 0 8px 32px rgba(44,36,22,.15);
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+    .badge-icon {
+      width: 44px; height: 44px;
+      background: var(--cream);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .badge-icon svg { width: 22px; fill: var(--wood-dark); }
+    .badge-text-main { font-weight: 700; font-size: .9rem; }
+    .badge-text-sub { font-size: .75rem; color: var(--text-muted); }
+
+    /* ── CATEGORIES ──────────────────────────── */
+    section { padding: 6rem 8vw; }
+    .section-label {
+      font-size: .75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--wood);
+      font-weight: 700;
+      margin-bottom: .75rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      color: var(--wood-dark);
+      line-height: 1.2;
+      margin-bottom: 3rem;
+    }
+    .section-title em { font-style: italic; color: var(--forest); }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .cat-card {
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      border-radius: 4px;
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--charcoal);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .cat-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(44,36,22,.12); }
+    .cat-img {
+      height: 180px;
+      background: var(--cream-dark);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .cat-img img { width: 100%; height: 100%; object-fit: cover; }
+    .cat-icon-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+    .cat-icon-placeholder svg { width: 56px; fill: var(--wood-light); opacity: .6; }
+    .cat-body { padding: 1.25rem; }
+    .cat-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--wood-dark);
+      margin-bottom: .25rem;
+    }
+    .cat-desc { font-size: .85rem; color: var(--text-muted); }
+    .cat-arrow {
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: .75rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--wood);
+      margin-top: .75rem;
+      font-weight: 700;
+      transition: gap .2s;
+    }
+    .cat-card:hover .cat-arrow { gap: .6rem; }
+
+    /* ── FEATURED / STORY ────────────────────── */
+    .story-section {
+      background: var(--wood-dark);
+      color: var(--cream);
+      padding: 6rem 8vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .story-img {
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--wood);
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .story-img img { width: 100%; height: 100%; object-fit: cover; }
+    .story-img-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      color: rgba(245,239,224,.4);
+    }
+    .story-img-placeholder svg { width: 80px; }
+    .story-content .section-label { color: var(--wood-light); }
+    .story-content .section-title { color: var(--cream); margin-bottom: 1.5rem; }
+    .story-content p { color: rgba(245,239,224,.75); line-height: 1.9; margin-bottom: 1.25rem; font-size: 1rem; }
+    .story-content .btn-primary { background: var(--cream); color: var(--wood-dark); }
+    .story-content .btn-primary:hover { background: var(--wood-light); color: var(--white); }
+
+    /* ── DESTAQUES ───────────────────────────── */
+    .features-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .feature-item { display: flex; align-items: flex-start; gap: 1.25rem; }
+    .feature-icon {
+      flex-shrink: 0;
+      width: 52px; height: 52px;
+      background: var(--cream-dark);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .feature-icon svg { width: 24px; fill: var(--wood-dark); }
+    .feature-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--wood-dark); margin-bottom: .35rem; }
+    .feature-desc { font-size: .88rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── PRODUCTS / DESTAQUE ─────────────────── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+      margin-top: 1rem;
+    }
+    .product-card {
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 32px rgba(44,36,22,.12); }
+    .product-img {
+      height: 220px;
+      background: var(--cream-dark);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .product-img img { width: 100%; height: 100%; object-fit: cover; }
+    .product-img svg { width: 64px; fill: var(--wood-light); opacity: .6; }
+    .product-info { padding: 1.25rem; }
+    .product-tag {
+      font-size: .7rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--wood);
+      font-weight: 700;
+      margin-bottom: .4rem;
+    }
+    .product-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--wood-dark);
+      margin-bottom: .5rem;
+    }
+    .product-desc { font-size: .85rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.6; }
+
+    /* ── NEWSLETTER ──────────────────────────── */
+    .newsletter {
+      background: var(--forest);
+      color: var(--cream);
+      text-align: center;
+      padding: 5rem 8vw;
+    }
+    .newsletter .section-title { color: var(--cream); margin-bottom: 1rem; }
+    .newsletter p { color: rgba(245,239,224,.7); margin-bottom: 2rem; max-width: 440px; margin-left: auto; margin-right: auto; }
+    .newsletter-form { display: flex; max-width: 420px; margin: 0 auto; gap: .75rem; }
+    .newsletter-form input {
+      flex: 1;
+      padding: .8rem 1.1rem;
+      border: 1px solid rgba(245,239,224,.3);
+      background: rgba(245,239,224,.1);
+      color: var(--cream);
+      border-radius: 2px;
+      font-family: 'Lato', sans-serif;
+      font-size: .9rem;
+      outline: none;
+    }
+    .newsletter-form input::placeholder { color: rgba(245,239,224,.4); }
+    .newsletter-form input:focus { border-color: rgba(245,239,224,.6); }
+    .newsletter-form button {
+      background: var(--cream);
+      color: var(--forest);
+      border: none;
+      padding: .8rem 1.5rem;
+      font-family: 'Lato', sans-serif;
+      font-size: .8rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background .2s;
+    }
+    .newsletter-form button:hover { background: var(--cream-dark); }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      background: var(--charcoal);
+      color: rgba(245,239,224,.6);
+      padding: 4rem 8vw 2rem;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-brand .logo-text { color: var(--cream); font-size: 1.4rem; }
+    .footer-brand .logo-sub { color: rgba(245,239,224,.4); }
+    .footer-brand p { font-size: .87rem; margin-top: 1rem; line-height: 1.8; }
+    .footer-col h4 {
+      font-size: .75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--cream);
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+    }
+    .footer-col a {
+      display: block;
+      color: rgba(245,239,224,.5);
+      text-decoration: none;
+      font-size: .87rem;
+      margin-bottom: .6rem;
+      transition: color .2s;
+    }
+    .footer-col a:hover { color: var(--wood-light); }
+    .footer-bottom {
+      border-top: 1px solid rgba(245,239,224,.08);
+      padding-top: 1.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .8rem;
+    }
+
+    /* ── MOBILE ──────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { min-height: 320px; }
+      .hero-left { padding: 4rem 6vw 3rem; }
+      .hero-badge { left: 1rem; }
+      .categories-grid { grid-template-columns: 1fr 1fr; }
+      .story-section { grid-template-columns: 1fr; }
+      .features-row { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      nav { display: none; }
+      .hamburger { display: flex; }
+      nav.open { display: flex; flex-direction: column; position: fixed; top: 76px; left: 0; right: 0; background: var(--cream); padding: 1.5rem 6vw; border-bottom: 1px solid var(--cream-dark); gap: 1.25rem; }
+    }
+    @media (max-width: 600px) {
+      .categories-grid { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: 1fr; }
+      .newsletter-form { flex-direction: column; }
+      .hero-stats { gap: 1.5rem; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    /* ── SCROLL REVEAL ───────────────────────── */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="header">
+    <a href="indexnew.html" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 2c1.6 0 3 .5 4.2 1.3L5.3 16.2A7 7 0 0 1 5 15c0-3.9 3.1-7 7-7zm0 14c-1.6 0-3.1-.5-4.2-1.4l10.9-9.9c.2.7.3 1.5.3 2.3 0 3.9-3.1 7-7 7z"/></svg>
+      </div>
+      <div>
+        <span class="logo-text">Jurat's</span>
+        <span class="logo-sub">Artesanato em Madeira</span>
+      </div>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="main-nav">
+      <a href="feito-a-mao.html">Feito a Mão</a>
+      <a href="publicacoes.html">Publicações</a>
+      <a href="contato.html">Contato</a>
+      <a href="contato.html" class="btn-cta">Encomendas</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">🌿 Artesanato desde 2018</p>
+      <h1 class="hero-title">
+        Brinquedos de madeira<br>
+        <em>feitos com amor</em><br>
+        e dedicação
+      </h1>
+      <p class="hero-desc">Cada peça é esculpida à mão, com madeiras selecionadas e acabamentos naturais, para que crianças possam explorar, imaginar e criar.</p>
+      <div class="hero-actions">
+        <a href="feito-a-mao.html" class="btn-primary">Ver Coleção</a>
+        <a href="publicacoes.html" class="btn-outline">
+          Nossa história
+          <svg viewBox="0 0 20 20" width="14" fill="currentColor"><path d="M4 10h12M12 6l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <p class="stat-num">500+</p>
+          <p class="stat-label">Peças criadas</p>
+        </div>
+        <div>
+          <p class="stat-num">8</p>
+          <p class="stat-label">Anos de ofício</p>
+        </div>
+        <div>
+          <p class="stat-num">100%</p>
+          <p class="stat-label">Madeira natural</p>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-img-grid">
+        <div>
+          <img src="img/crianca-brincando-com-brinquedos-de-madeira-tiro-completo.jpg"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+               alt="Criança brincando">
+          <div class="hero-img-placeholder" style="display:none">
+            <svg viewBox="0 0 24 24" fill="white"><path d="M19 3H5C3.9 3 3 3.9 3 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <span>Foto principal</span>
+          </div>
+        </div>
+        <div>
+          <img src="img/feche-crianca-segurando-o-jogo-educacional.jpg"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+               alt="Brinquedos educacionais">
+          <div class="hero-img-placeholder" style="display:none">
+            <svg viewBox="0 0 24 24" fill="white"><path d="M12 3C8.7 3 6 5.7 6 9s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6z"/></svg>
+            <span>Brinquedos</span>
+          </div>
+        </div>
+        <div>
+          <img src="img/marceneiro-masculino-em-sua-loja-trabalhando-com-ferramentas-e-equipamentos.jpg"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+               alt="Marceneiro artesão">
+          <div class="hero-img-placeholder" style="display:none">
+            <svg viewBox="0 0 24 24" fill="white"><path d="M22 9V7H20V5C20 3.9 19.1 3 18 3H4C2.9 3 2 3.9 2 5v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9h2z"/></svg>
+            <span>Oficina</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <div class="badge-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 1L9 9H1l6.5 4.7L5 22l7-5 7 5-2.5-8.3L23 9h-8L12 1z"/></svg>
+        </div>
+        <div>
+          <p class="badge-text-main">Qualidade garantida</p>
+          <p class="badge-text-sub">Seguro para crianças</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIAS -->
+  <section>
+    <p class="section-label reveal">Categorias</p>
+    <h2 class="section-title reveal">Explore nossa <em>coleção</em></h2>
+    <div class="categories-grid">
+      <a href="feito-a-mao.html#animais" class="cat-card reveal reveal-delay-1">
+        <div class="cat-img">
+          <div class="cat-icon-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M4.5 11c0-1.1-.9-2-2-2S.5 9.9.5 11s.9 2 2 2 2-.9 2-2zm11 1.5c-1.4 0-2.5-1.1-2.5-2.5S14.1 7.5 15.5 7.5 18 8.6 18 10s-1.1 2.5-2.5 2.5zm4.5 3c-1.4 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5-1.1-2.5-2.5-2.5zm-12.5 0C6.1 15.5 5 16.6 5 18s1.1 2.5 2.5 2.5S10 19.4 10 18s-1.1-2.5-2.5-2.5z"/></svg>
+          </div>
+        </div>
+        <div class="cat-body">
+          <p class="cat-name">Animais</p>
+          <p class="cat-desc">Bichinhos esculpidos com atenção a cada detalhe</p>
+          <p class="cat-arrow">Ver peças →</p>
+        </div>
+      </a>
+      <a href="feito-a-mao.html#articulados" class="cat-card reveal reveal-delay-1">
+        <div class="cat-img">
+          <div class="cat-icon-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+          </div>
+        </div>
+        <div class="cat-body">
+          <p class="cat-name">Articulados</p>
+          <p class="cat-desc">Bonecas e figuras com juntas móveis artesanais</p>
+          <p class="cat-arrow">Ver peças →</p>
+        </div>
+      </a>
+      <a href="feito-a-mao.html#transportes" class="cat-card reveal reveal-delay-2">
+        <div class="cat-img">
+          <div class="cat-icon-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+          </div>
+        </div>
+        <div class="cat-body">
+          <p class="cat-name">Transportes</p>
+          <p class="cat-desc">Carros, trens e veículos feitos em madeira maciça</p>
+          <p class="cat-arrow">Ver peças →</p>
+        </div>
+      </a>
+      <a href="feito-a-mao.html#colecao" class="cat-card reveal reveal-delay-3">
+        <div class="cat-img">
+          <div class="cat-icon-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          </div>
+        </div>
+        <div class="cat-body">
+          <p class="cat-name">Colecionáveis</p>
+          <p class="cat-desc">Edições especiais e peças únicas numeradas</p>
+          <p class="cat-arrow">Ver peças →</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <div class="story-section">
+    <div class="story-img">
+      <img src="img/marceneiro-masculino-em-sua-loja-trabalhando-com-ferramentas-e-equipamentos.jpg"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+           alt="Artesão trabalhando" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
+      <div class="story-img-placeholder">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        <span>Foto da oficina</span>
+      </div>
+    </div>
+    <div class="story-content">
+      <p class="section-label">Nossa história</p>
+      <h2 class="section-title">Artesanato que <em>atravessa gerações</em></h2>
+      <p>A Jurat's nasceu do amor pela madeira e pela infância. Cada brinquedo que sai de nossa oficina carrega horas de trabalho manual cuidadoso, com madeiras de reflorestamento e tintas naturais seguras para crianças.</p>
+      <p>Acreditamos que brinquedos de qualidade formam memórias afetivas que duram para sempre — e por isso cada detalhe é pensado com carinho.</p>
+      <a href="publicacoes.html" class="btn-primary" style="margin-top:.5rem;">Ler nossa história</a>
+    </div>
+  </div>
+
+  <!-- DIFERENCIAIS -->
+  <section>
+    <p class="section-label reveal">Por que Jurat's</p>
+    <h2 class="section-title reveal">Feito com <em>consciência</em></h2>
+    <div class="features-row">
+      <div class="feature-item reveal reveal-delay-1">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 19.82c-.8 1.37.22 2.63 1.43 2.18C8.46 20.56 14.7 16.42 17 8zM18 2c0 0-4.78 3.56-7.26 8.36C12.04 11.5 13.5 13 14 14c2.28-3.04 5.77-4.88 8-6-1.19-1.51-2.57-2.76-4-3.93z"/></svg>
+        </div>
+        <div>
+          <p class="feature-title">Madeira Sustentável</p>
+          <p class="feature-desc">Utilizamos madeiras certificadas de reflorestamento, garantindo responsabilidade ambiental em cada peça.</p>
+        </div>
+      </div>
+      <div class="feature-item reveal reveal-delay-2">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 1l9 4v6c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+        </div>
+        <div>
+          <p class="feature-title">Seguro para Crianças</p>
+          <p class="feature-desc">Tintas e vernizes atóxicos, sem bordas cortantes. Testados e seguros para crianças a partir de 1 ano.</p>
+        </div>
+      </div>
+      <div class="feature-item reveal reveal-delay-3">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        </div>
+        <div>
+          <p class="feature-title">100% Artesanal</p>
+          <p class="feature-desc">Cada peça é feita à mão, uma por uma. Sem produção em série, sem pressa — só dedicação.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUTOS EM DESTAQUE -->
+  <section style="background: var(--cream-dark); padding: 6rem 8vw;">
+    <p class="section-label reveal">Destaques</p>
+    <h2 class="section-title reveal">Peças mais <em>amadas</em></h2>
+    <div class="products-grid">
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-img">
+          <svg viewBox="0 0 24 24"><path d="M4.5 11c0-1.1-.9-2-2-2S.5 9.9.5 11s.9 2 2 2 2-.9 2-2z"/></svg>
+        </div>
+        <div class="product-info">
+          <p class="product-tag">Animais</p>
+          <p class="product-name">Elefante Articulado</p>
+          <p class="product-desc">Esculpido em cedro, com juntas móveis que encantam e estimulam a coordenação motora.</p>
+          <a href="feito-a-mao.html" class="btn-primary" style="font-size:.75rem;padding:.6rem 1.2rem;">Ver detalhes</a>
+        </div>
+      </div>
+      <div class="product-card reveal reveal-delay-2">
+        <div class="product-img">
+          <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11l-2 6H3v1.5h1v6H5v-1.5h14V19h1v-6h1v-1.5h-2.08l-2-5.99z"/></svg>
+        </div>
+        <div class="product-info">
+          <p class="product-tag">Transportes</p>
+          <p class="product-name">Trem Clássico</p>
+          <p class="product-desc">Conjunto de 5 vagões encaixáveis, pintados com tinta natural nas cores vibrantes.</p>
+          <a href="feito-a-mao.html" class="btn-primary" style="font-size:.75rem;padding:.6rem 1.2rem;">Ver detalhes</a>
+        </div>
+      </div>
+      <div class="product-card reveal reveal-delay-3">
+        <div class="product-img">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        </div>
+        <div class="product-info">
+          <p class="product-tag">Colecionáveis</p>
+          <p class="product-name">Miniaturas da Fazenda</p>
+          <p class="product-desc">Conjunto numerado com 12 animais e acessórios, edição limitada pintada à mão.</p>
+          <a href="feito-a-mao.html" class="btn-primary" style="font-size:.75rem;padding:.6rem 1.2rem;">Ver detalhes</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <div class="newsletter">
+    <p class="section-label" style="color: rgba(245,239,224,.5);">Fique por dentro</p>
+    <h2 class="section-title">Novidades direto <em>no seu e-mail</em></h2>
+    <p>Receba em primeira mão lançamentos, histórias do ateliê e ofertas exclusivas para quem ama artesanato.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="seu@email.com" />
+      <button type="button">Assinar</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-mark">
+            <svg viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 2c1.6 0 3 .5 4.2 1.3L5.3 16.2A7 7 0 0 1 5 15c0-3.9 3.1-7 7-7zm0 14c-1.6 0-3.1-.5-4.2-1.4l10.9-9.9c.2.7.3 1.5.3 2.3 0 3.9-3.1 7-7 7z"/></svg>
+          </div>
+          <div>
+            <span class="logo-text">Jurat's</span>
+            <span class="logo-sub">Artesanato em Madeira</span>
+          </div>
+        </div>
+        <p>Brinquedos feitos à mão com amor, madeira sustentável e dedicação artesanal desde 2018.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Produtos</h4>
+        <a href="feito-a-mao.html#animais">Animais</a>
+        <a href="feito-a-mao.html#articulados">Articulados</a>
+        <a href="feito-a-mao.html#transportes">Transportes</a>
+        <a href="feito-a-mao.html#colecao">Colecionáveis</a>
+      </div>
+      <div class="footer-col">
+        <h4>Sobre</h4>
+        <a href="publicacoes.html">Publicações</a>
+        <a href="publicacoes.html#historia">Nossa História</a>
+        <a href="contato.html">Contato</a>
+        <a href="contato.html">Encomendas</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <a href="mailto:ola@jurats.com.br">ola@jurats.com.br</a>
+        <a href="https://instagram.com">@jurats_artesanato</a>
+        <a href="https://wa.me/5582999999999">WhatsApp</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Jurat's. Todos os direitos reservados.</span>
+      <span>Feito com ❤️ em Alagoas, Brasil</span>
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Hamburger
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('main-nav');
+    hamburger.addEventListener('click', () => nav.classList.toggle('open'));
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => observer.observe(r));
+  </script>
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publicações — Jurat's Artesanato</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #F5EFE0; --cream-dark: #EDE4CE; --wood: #8B5E3C;
+      --wood-dark: #6B4226; --wood-light: #C4956A; --forest: #3A5A40;
+      --charcoal: #2C2416; --text-muted: #7A6A55; --white: #FDFAF4; --accent: #C8441B;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--charcoal); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+
+    /* HEADER */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1rem 4vw; background: var(--cream); border-bottom: 1px solid var(--cream-dark); }
+    header.scrolled { box-shadow: 0 2px 24px rgba(44,36,22,.1); }
+    .logo { display: flex; align-items: center; gap: .75rem; text-decoration: none; color: var(--wood-dark); }
+    .logo-mark { width: 44px; height: 44px; background: var(--wood-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .logo-mark svg { width: 26px; height: 26px; fill: var(--cream); }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; }
+    .logo-sub { font-size: .65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); display: block; margin-top: -6px; }
+    nav { display: flex; align-items: center; gap: 2.5rem; }
+    nav a { font-size: .85rem; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; color: var(--charcoal); font-weight: 400; position: relative; transition: color .2s; }
+    nav a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--wood); transform: scaleX(0); transition: transform .3s; }
+    nav a:hover { color: var(--wood); }
+    nav a:hover::after, nav a.active::after { transform: scaleX(1); }
+    nav a.active { color: var(--wood); }
+    .btn-cta { background: var(--wood-dark); color: var(--cream) !important; padding: .55rem 1.3rem; border-radius: 2px; letter-spacing: 1.5px; font-size: .8rem; text-transform: uppercase; transition: background .2s !important; }
+    .btn-cta::after { display: none !important; }
+    .btn-cta:hover { background: var(--accent) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; border: none; background: none; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--charcoal); }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding: 10rem 8vw 5rem;
+      background: var(--forest);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '"';
+      position: absolute;
+      right: 6vw;
+      top: 4rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 20rem;
+      color: rgba(245,239,224,.05);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .page-hero .eyebrow { font-size: .75rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(196,149,106,.8); font-weight: 700; margin-bottom: .75rem; }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 1.25rem; }
+    .page-hero h1 em { font-style: italic; color: var(--wood-light); }
+    .page-hero p { color: rgba(245,239,224,.7); max-width: 520px; font-size: 1.05rem; }
+
+    /* FEATURED POST */
+    .featured-post {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 420px;
+      background: var(--white);
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .featured-img {
+      background: var(--wood-light);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .featured-img img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .featured-img svg { width: 100px; fill: rgba(245,239,224,.3); }
+    .featured-badge {
+      position: absolute; top: 1.5rem; left: 1.5rem;
+      background: var(--accent); color: var(--cream);
+      font-size: .65rem; letter-spacing: 2px; text-transform: uppercase;
+      padding: .35rem .8rem; border-radius: 2px; font-weight: 700;
+    }
+    .featured-content {
+      padding: 4rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .post-meta { font-size: .75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem; }
+    .post-meta span { color: var(--wood); font-weight: 700; }
+    .featured-content h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--wood-dark); line-height: 1.2; margin-bottom: 1rem; }
+    .featured-content h2 em { font-style: italic; color: var(--forest); }
+    .featured-content p { color: var(--text-muted); line-height: 1.8; margin-bottom: 1.5rem; }
+    .btn-read {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase;
+      font-weight: 700; color: var(--wood-dark); text-decoration: none;
+      border-bottom: 1px solid var(--wood-dark); padding-bottom: 2px;
+      transition: gap .2s, color .2s;
+    }
+    .btn-read:hover { gap: .8rem; color: var(--accent); border-color: var(--accent); }
+
+    /* BLOG GRID */
+    .blog-section { padding: 5rem 8vw; }
+    .section-label { font-size: .75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--wood); font-weight: 700; margin-bottom: .75rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--wood-dark); line-height: 1.2; margin-bottom: 3rem; }
+    .section-title em { font-style: italic; color: var(--forest); }
+
+    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .blog-card {
+      background: var(--white);
+      border: 1px solid var(--cream-dark);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column;
+    }
+    .blog-card:hover { transform: translateY(-5px); box-shadow: 0 10px 32px rgba(44,36,22,.1); }
+    .blog-img {
+      height: 180px;
+      background: var(--cream-dark);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
+    }
+    .blog-img img { width: 100%; height: 100%; object-fit: cover; }
+    .blog-img svg { width: 64px; fill: var(--wood-light); opacity: .5; }
+    .blog-tag {
+      position: absolute; bottom: 1rem; left: 1rem;
+      background: var(--white); color: var(--wood);
+      font-size: .65rem; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: .3rem .7rem; border-radius: 2px; font-weight: 700;
+    }
+    .blog-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .blog-date { font-size: .75rem; color: var(--text-muted); letter-spacing: .5px; margin-bottom: .6rem; }
+    .blog-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--wood-dark); line-height: 1.35; margin-bottom: .7rem; }
+    .blog-excerpt { font-size: .85rem; color: var(--text-muted); line-height: 1.7; flex: 1; }
+    .blog-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--cream-dark); display: flex; align-items: center; justify-content: space-between; }
+    .blog-author { display: flex; align-items: center; gap: .6rem; }
+    .author-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--wood-light); display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700; color: var(--white); }
+    .author-name { font-size: .78rem; color: var(--text-muted); }
+    .read-time { font-size: .72rem; color: var(--text-muted); }
+
+    /* HISTÓRIA SECTION */
+    .historia-section {
+      background: var(--cream-dark);
+      padding: 6rem 8vw;
+    }
+    .historia-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .historia-img {
+      border-radius: 4px; overflow: hidden;
+      background: var(--wood-dark);
+      min-height: 400px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .historia-img img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .historia-img svg { width: 80px; fill: rgba(245,239,224,.2); }
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item { display: flex; gap: 1.5rem; padding-bottom: 2.5rem; position: relative; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item:not(:last-child)::before { content: ''; position: absolute; left: 19px; top: 40px; bottom: 0; width: 1px; background: var(--cream-dark); border-left: 2px dashed var(--wood-light); }
+    .timeline-dot { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; background: var(--wood-dark); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: .9rem; font-weight: 700; color: var(--cream); }
+    .timeline-year { font-size: .75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--wood); font-weight: 700; margin-bottom: .3rem; }
+    .timeline-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--wood-dark); margin-bottom: .35rem; }
+    .timeline-desc { font-size: .87rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* NEWSLETTER */
+    .newsletter { background: var(--wood-dark); color: var(--cream); padding: 5rem 8vw; text-align: center; }
+    .newsletter .section-title { color: var(--cream); margin-bottom: 1rem; }
+    .newsletter p { color: rgba(245,239,224,.65); margin-bottom: 2rem; max-width: 420px; margin-left: auto; margin-right: auto; }
+    .newsletter-form { display: flex; max-width: 420px; margin: 0 auto; gap: .75rem; }
+    .newsletter-form input { flex: 1; padding: .8rem 1.1rem; border: 1px solid rgba(245,239,224,.3); background: rgba(245,239,224,.08); color: var(--cream); border-radius: 2px; font-family: 'Lato', sans-serif; font-size: .9rem; outline: none; }
+    .newsletter-form input::placeholder { color: rgba(245,239,224,.35); }
+    .newsletter-form input:focus { border-color: rgba(245,239,224,.5); }
+    .newsletter-form button { background: var(--cream); color: var(--wood-dark); border: none; padding: .8rem 1.5rem; font-family: 'Lato', sans-serif; font-size: .8rem; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; cursor: pointer; border-radius: 2px; transition: background .2s; }
+    .newsletter-form button:hover { background: var(--wood-light); color: var(--white); }
+
+    /* FOOTER */
+    footer { background: var(--charcoal); color: rgba(245,239,224,.6); padding: 3rem 8vw 2rem; }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: .8rem; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .55s, transform .55s; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+
+    @media (max-width: 900px) {
+      nav { display: none; }
+      .hamburger { display: flex; }
+      nav.open { display: flex; flex-direction: column; position: fixed; top: 76px; left: 0; right: 0; background: var(--cream); padding: 1.5rem 6vw; border-bottom: 1px solid var(--cream-dark); gap: 1.25rem; }
+      .featured-post { grid-template-columns: 1fr; }
+      .featured-img { min-height: 260px; }
+      .featured-content { padding: 2rem; }
+      .blog-grid { grid-template-columns: 1fr 1fr; }
+      .historia-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .blog-grid { grid-template-columns: 1fr; }
+      .newsletter-form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <header id="header">
+    <a href="indexnew.html" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 3C7 3 3 7 3 12s4 9 9 9 9-4 9-9-4-9-9-9zm0 2c1.6 0 3 .5 4.2 1.3L5.3 16.2A7 7 0 0 1 5 15c0-3.9 3.1-7 7-7zm0 14c-1.6 0-3.1-.5-4.2-1.4l10.9-9.9c.2.7.3 1.5.3 2.3 0 3.9-3.1 7-7 7z"/></svg>
+      </div>
+      <div>
+        <span class="logo-text">Jurat's</span>
+        <span class="logo-sub">Artesanato em Madeira</span>
+      </div>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menu"><span></span><span></span><span></span></button>
+    <nav id="main-nav">
+      <a href="feito-a-mao.html">Feito a Mão</a>
+      <a href="publicacoes.html" class="active">Publicações</a>
+      <a href="contato.html">Contato</a>
+      <a href="contato.html" class="btn-cta">Encomendas</a>
+    </nav>
+  </header>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <p class="eyebrow">Blog & Histórias</p>
+    <h1>Publicações<br>do <em>ateliê</em></h1>
+    <p>Histórias sobre madeira, infância e artesanato. Bastidores do nosso trabalho, inspirações e reflexões sobre criar com as mãos.</p>
+  </div>
+
+  <!-- FEATURED POST -->
+  <div class="featured-post">
+    <div class="featured-img">
+      <img src="img/marceneiro-masculino-em-sua-loja-trabalhando-com-ferramentas-e-equipamentos.jpg"
+           onerror="this.style.display='none'"
+           alt="Artesão na oficina">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+      <span class="featured-badge">Destaque</span>
+    </div>
+    <div class="featured-content">
+      <p class="post-meta"><span>Oficina</span> · 15 de maio de 2025 · 8 min de leitura</p>
+      <h2>Como uma tora de cedro<br>vira um <em>brinquedo</em></h2>
+      <p>Do corte à última camada de cera natural — acompanhe o processo completo de criação de um dos nossos elefantes articulados, passo a passo, diretamente da bancada do ateliê.</p>
+      <a href="#" class="btn-read">Ler artigo completo →</a>
+    </div>
+  </div>
+
+  <!-- POSTS RECENTES -->
+  <div class="blog-section">
+    <p class="section-label reveal">Publicações recentes</p>
+    <h2 class="section-title reveal">Histórias do <em>ateliê</em></h2>
+
+    <div class="blog-grid">
+      <a href="#" class="blog-card reveal reveal-delay-1">
+        <div class="blog-img">
+          <svg viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 19.82c-.8 1.37.22 2.63 1.43 2.18C8.46 20.56 14.7 16.42 17 8z"/></svg>
+          <span class="blog-tag">Sustentabilidade</span>
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">3 de abril de 2025</p>
+          <h3 class="blog-title">As madeiras que usamos e por que cada escolha importa</h3>
+          <p class="blog-excerpt">Pinus, cedro, teca — cada espécie tem uma personalidade. Descubra como escolhemos nossas madeiras com responsabilidade ambiental.</p>
+        </div>
+        <div class="blog-footer">
+          <div class="blog-author">
+            <div class="author-avatar">JR</div>
+            <span class="author-name">Jurandir Jr.</span>
+          </div>
+          <span class="read-time">5 min</span>
+        </div>
+      </a>
+
+      <a href="#" class="blog-card reveal reveal-delay-2">
+        <div class="blog-img">
+          <svg viewBox="0 0 24 24"><path d="M12 3C8.7 3 6 5.7 6 9s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6z"/></svg>
+          <span class="blog-tag">Educação</span>
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">18 de março de 2025</p>
+          <h3 class="blog-title">Por que brinquedos de madeira desenvolvem mais que os de plástico</h3>
+          <p class="blog-excerpt">Textura, peso, cheiro — os sentidos da criança são estimulados de formas que o plástico simplesmente não consegue replicar.</p>
+        </div>
+        <div class="blog-footer">
+          <div class="blog-author">
+            <div class="author-avatar">MC</div>
+            <span class="author-name">Maria Clara</span>
+          </div>
+          <span class="read-time">7 min</span>
+        </div>
+      </a>
+
+      <a href="#" class="blog-card reveal reveal-delay-3">
+        <div class="blog-img">
+          <svg viewBox="0 0 24 24"><path d="M12 2l9 4v6c0 5.55-3.84 10.74-9 12C6.84 22.74 3 17.55 3 12V6l9-4z"/></svg>
+          <span class="blog-tag">Segurança</span>
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">2 de fevereiro de 2025</p>
+          <h3 class="blog-title">Tintas naturais: o processo de pintura segura que adotamos desde o início</h3>
+          <p class="blog-excerpt">Nenhum químico tóxico, nenhuma borda cortante. Conheça os padrões de segurança que garantimos em cada peça que sai do ateliê.</p>
+        </div>
+        <div class="blog-footer">
+          <div class="blog-author">
+            <div class="author-avatar">JR</div>
+            <span class="author-name">Jurandir Jr.</span>
+          </div>
+          <span class="read-time">4 min</span>
+        </div>
+      </a>
+
+      <a href="#" class="blog-card reveal reveal-delay-1">
+        <div class="blog-img">
+          <svg viewBox="0 0 24 24"><path d="M20 7H4c-1.1 0-2 .9-2 2v10h2V9h16v10h2V9c0-1.1-.9-2-2-2zm-9 8H7v-2h4v2zm6-4H7v-2h10v2z"/></svg>
+          <span class="blog-tag">Artesanato</span>
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">10 de janeiro de 2025</p>
+          <h3 class="blog-title">Ferramentas do ofício: o que tem na bancada de um marceneiro artesão</h3>
+          <p class="blog-excerpt">Goiva, formão, lixa — cada ferramenta tem sua história. Um passeio pelas ferramentas que habitam nossa oficina há anos.</p>
+        </div>
+        <div class="blog-footer">
+          <div class="blog-author">
+            <div class="author-avatar">JR</div>
+            <span class="author-name">Jurandir Jr.</span>
+          </div>
+          <span class="read-time">6 min</span>
+        </div>
+      </a>
+
+      <a href="#" class="blog-card reveal reveal-delay-2">
+        <div class="blog-img">
+          <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+          <span class="blog-tag">Colecionáveis</span>
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">5 de dezembro de 2024</p>
+          <h3 class="blog-title">Edição Natal 2024: como criamos o conjunto de miniaturas mais especial do ano</h3>
+          <p class="blog-excerpt">A história por trás das 12 peças pintadas à mão que esgotaram em 48 horas — e o que aprendemos para 2025.</p>
+        </div>
+        <div class="blog-footer">
+          <div class="blog-author">
+            <div class="author-avatar">MC</div>
+            <span class="author-name">Maria Clara</span>
+          </div>
+          <span class="read-time">9 min</span>
+        </div>
+      </a>
+
+      <a href="#" class="blog-card reveal reveal-delay-3">
+        <div class="blog-img">
+          <svg viewBox="0 0 24 24"><path d="M4.5 11c0-1.1-.9-2-2-2S.5 9.9.5 11s.9 2 2 2 2-.9 2-2z"/></svg>
+          <span class="blog-tag">Inspiração</span>
+        </div>
+        <div class="blog-body">
+          <p class="blog-date">20 de outubro de 2024</p>
+          <h3 class="blog-title">Uma visita ao Museu do Brinquedo em São Paulo mudou a forma de trabalhar</h3>
+          <p class="blog-excerpt">Brinquedos de 150 anos ainda intactos, com cores vivas. O que essa visita nos ensinou sobre durabilidade e intenção.</p>
+        </div>
+        <div class="blog-footer">
+          <div class="blog-author">
+            <div class="author-avatar">JR</div>
+            <span class="author-name">Jurandir Jr.</span>
+          </div>
+          <span class="read-time">5 min</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- NOSSA HISTÓRIA TIMELINE -->
+  <div class="historia-section" id="historia">
+    <div class="historia-grid">
+      <div class="historia-img">
+        <img src="img/marceneiro-masculino-em-sua-loja-trabalhando-com-ferramentas-e-equipamentos.jpg"
+             onerror="this.style.display='none'"
+             alt="Oficina Jurat's">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+      <div>
+        <p class="section-label">Nossa história</p>
+        <h2 class="section-title" style="margin-bottom:2.5rem;">Da bancada ao <em>coração</em> das famílias</h2>
+        <div class="timeline">
+          <div class="timeline-item reveal">
+            <div class="timeline-dot">18</div>
+            <div>
+              <p class="timeline-year">2018 — O começo</p>
+              <p class="timeline-title">Primeiro brinquedo entalhado</p>
+              <p class="timeline-desc">Jurandir Jr. esculpe seu primeiro elefante de madeira para o filho recém-nascido. O que era um presente vira uma paixão — e depois, um ofício.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-dot">20</div>
+            <div>
+              <p class="timeline-year">2020 — Primeiras vendas</p>
+              <p class="timeline-title">O ateliê abre as portas</p>
+              <p class="timeline-desc">Amigos pedem réplicas do elefante. Em seis meses, as encomendas tomam conta da garagem — nasce o ateliê Jurat's.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-dot">22</div>
+            <div>
+              <p class="timeline-year">2022 — Crescimento</p>
+              <p class="timeline-title">Primeira edição limitada</p>
+              <p class="timeline-desc">100 peças colecionáveis numeradas, esgotadas em 3 dias. A Jurat's recebe cobertura da imprensa local e passa a ter lista de espera.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-dot">25</div>
+            <div>
+              <p class="timeline-year">2025 — Hoje</p>
+              <p class="timeline-title">500 peças e um sonho maior</p>
+              <p class="timeline-desc">Com 500 brinquedos criados, a Jurat's quer formar novos artesãos e levar o ofício da madeira para as próximas gerações alagoanas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="newsletter">
+    <p class="section-label" style="color:rgba(196,149,106,.7);">Fique por dentro</p>
+    <h2 class="section-title">Novas histórias<br><em>toda quinzena</em></h2>
+    <p>Receba nossos artigos, bastidores do ateliê e lançamentos antes de todo mundo.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="seu@email.com" />
+      <button type="button">Assinar</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-bottom">
+      <span>© 2025 Jurat's. Todos os direitos reservados.</span>
+      <a href="indexnew.html" style="color:rgba(245,239,224,.4);text-decoration:none;font-size:.8rem;">← Voltar ao início</a>
+    </div>
+  </footer>
+
+  <script>
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 40));
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('main-nav');
+    hamburger.addEventListener('click', () => nav.classList.toggle('open'));
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
+  </script>
+</body>
+</html>
